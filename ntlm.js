@@ -6,6 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+var Buffer = require('buffer');
 var createCipheriv = require('browserify-cipher').createCipheriv;
 var createHash = require('create-hash');
 
