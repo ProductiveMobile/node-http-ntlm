@@ -6,7 +6,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-var crypto = require('crypto');
+var createCipheriv = require('browserify-cipher').createCipheriv;
+var createHash = require('create-hash');
 
 var flags = {
 	NTLM_NegotiateUnicode                :  0x00000001,
@@ -262,7 +263,7 @@ function create_LM_hashed_password_v1(password){
 
 	function encrypt(buf){
 		var key = insertZerosEvery7Bits(buf);
-		var des = crypto.createCipheriv('DES-ECB', key, '');
+		var des = createCipheriv('DES-ECB', key, '');
 		return des.update("KGS!@#$%"); // page 57 in [MS-NLMP]);
 	}
 
@@ -354,7 +355,7 @@ function binaryArray2bytes(array){
 
 function create_NT_hashed_password_v1(password){
 	var buf = new Buffer(password, 'utf16le');
-	var md4 = crypto.createHash('md4');
+	var md4 = createHash('md4');
 	md4.update(buf);
 	return new Buffer(md4.digest());
 }
@@ -367,13 +368,13 @@ function calc_resp(password_hash, server_challenge){
 
     var resArray = [];
 
-    var des = crypto.createCipheriv('DES-ECB', insertZerosEvery7Bits(passHashPadded.slice(0,7)), '');
+    var des = createCipheriv('DES-ECB', insertZerosEvery7Bits(passHashPadded.slice(0,7)), '');
     resArray.push( des.update(server_challenge.slice(0,8)) );
 
-    des = crypto.createCipheriv('DES-ECB', insertZerosEvery7Bits(passHashPadded.slice(7,14)), '');
+    des = createCipheriv('DES-ECB', insertZerosEvery7Bits(passHashPadded.slice(7,14)), '');
     resArray.push( des.update(server_challenge.slice(0,8)) );
 
-    des = crypto.createCipheriv('DES-ECB', insertZerosEvery7Bits(passHashPadded.slice(14,21)), '');
+    des = createCipheriv('DES-ECB', insertZerosEvery7Bits(passHashPadded.slice(14,21)), '');
     resArray.push( des.update(server_challenge.slice(0,8)) );
 
    	return Buffer.concat(resArray);
@@ -386,7 +387,7 @@ function ntlm2sr_calc_resp(responseKeyNT, serverChallenge, clientChallenge){
     clientChallenge.copy(lmChallengeResponse, 0, 0, clientChallenge.length);
 
     var buf = Buffer.concat([serverChallenge, clientChallenge]);
-    var md5 = crypto.createHash('md5');
+    var md5 = createHash('md5');
     md5.update(buf);
     var sess = md5.digest();
     var ntChallengeResponse = calc_resp(responseKeyNT, sess.slice(0,8));
