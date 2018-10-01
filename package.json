@@ -3,8 +3,8 @@
   "description": "httpntlm is a Node.js library to do HTTP NTLM authentication",
   "version": "1.7.6",
   "dependencies": {
-    "httpreq": ">=0.4.22",
-    "underscore": "~1.7.0"
+    "create-hash": "^1.1.0",
+    "browserify-cipher": "^1.0.0"
   },
   "author": {
     "name": "Sam Decrock",
@@ -20,7 +20,7 @@
     "type": "git",
     "url": "git://github.com/SamDecrock/node-http-ntlm.git"
   },
-  "main": "./httpntlm",
+  "main": "./ntlm",
   "licenses": [
     {
       "type": "MIT",
