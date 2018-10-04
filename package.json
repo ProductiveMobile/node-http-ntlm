@@ -5,7 +5,8 @@
   "dependencies": {
     "buffer": "^5.2.1",
     "create-hash": "^1.1.0",
-    "browserify-cipher": "^1.0.0"
+    "browserify-cipher": "^1.0.0",
+    "js-md4": "0.3.2"
   },
   "author": {
     "name": "Sam Decrock",
